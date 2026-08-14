@@ -5,6 +5,8 @@ import com.divergentapp.qrtoolkit.domain.model.QRContent
 
 sealed interface HistoryEffect : UiEffect{
 
+    data object ShowInterstitial : HistoryEffect
+
     data class Open(
         val content: QRContent
     ) : HistoryEffect

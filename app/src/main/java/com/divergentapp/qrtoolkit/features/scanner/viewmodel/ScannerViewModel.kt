@@ -186,6 +186,9 @@ class ScannerViewModel(
     private fun openResult() {
         state.value.scannedQr?.let {
             sendEffect(
+                ScannerEffect.ShowInterstitial
+            )
+            sendEffect(
                 ScannerEffect.Open(it.content)
             )
         }

@@ -174,6 +174,10 @@ class GenerateViewModel(
                     bitmap = bitmap
                 )
             }
+
+            sendEffect(
+                GenerateEffect.ShowInterstitial
+            )
         }
     }
 }

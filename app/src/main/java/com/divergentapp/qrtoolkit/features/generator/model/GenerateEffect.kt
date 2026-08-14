@@ -6,4 +6,6 @@ sealed interface GenerateEffect : UiEffect {
     data class ShowMessage(
         val message: String
     ) : GenerateEffect
+
+    data object ShowInterstitial : GenerateEffect
 }

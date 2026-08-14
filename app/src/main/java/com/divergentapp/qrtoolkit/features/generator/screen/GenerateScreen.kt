@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.divergentapp.qrtoolkit.core.ads.InterstitialAdManager
 import com.divergentapp.qrtoolkit.core.common.FeedbackManager
 import com.divergentapp.qrtoolkit.core.common.VibrationManager
 import com.divergentapp.qrtoolkit.core.util.GenerateValidator.canGenerate
@@ -49,6 +51,8 @@ fun GenerateScreen(
     viewModel: GenerateViewModel = koinViewModel()
 ) {
 
+    val activity = LocalActivity.current
+    val adManager : InterstitialAdManager = koinInject()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -72,7 +76,13 @@ fun GenerateScreen(
                     ).show()
                 }
 
-                // other effects...
+                GenerateEffect.ShowInterstitial -> {
+                    if (adManager.recordAction()) {
+                        activity?.let {
+                            adManager.showIfAvailable(it)
+                        }
+                    }
+                }
             }
         }
     }

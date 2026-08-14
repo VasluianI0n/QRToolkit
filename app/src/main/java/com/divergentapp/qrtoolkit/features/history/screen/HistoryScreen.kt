@@ -1,6 +1,7 @@
 package com.divergentapp.qrtoolkit.features.history.screen
 
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.divergentapp.qrtoolkit.core.ads.InterstitialAdManager
 import com.divergentapp.qrtoolkit.core.common.FeedbackManager
 import com.divergentapp.qrtoolkit.core.qr.ParsedQR
 import com.divergentapp.qrtoolkit.core.ui.copyQr
@@ -31,6 +33,8 @@ import org.koin.compose.koinInject
 fun HistoryScreen(
     viewModel: HistoryViewModel = koinViewModel()
 ) {
+    val adManager: InterstitialAdManager = koinInject()
+    val activity = LocalActivity.current
     val context = LocalContext.current
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -55,6 +59,14 @@ fun HistoryScreen(
                         effect.message,
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+                HistoryEffect.ShowInterstitial -> {
+                    if (adManager.recordAction()) {
+                        activity?.let {
+                            adManager.showIfAvailable(it)
+                        }
+                    }
                 }
             }
         }

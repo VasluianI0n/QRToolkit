@@ -1,6 +1,7 @@
 package com.divergentapp.qrtoolkit.features.scanner.screen
 
 import android.widget.Toast
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.divergentapp.qrtoolkit.core.ads.InterstitialAdManager
 import com.divergentapp.qrtoolkit.core.common.BeepManager
 import com.divergentapp.qrtoolkit.core.camera.CameraController
 import com.divergentapp.qrtoolkit.core.camera.CameraPreview
@@ -47,6 +49,8 @@ import com.divergentapp.qrtoolkit.domain.model.QRContent
 fun ScannerScreen(
     viewModel: ScannerViewModel = koinViewModel()
 ) {
+    val adManager: InterstitialAdManager = koinInject()
+    val activity = LocalActivity.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -137,6 +141,14 @@ fun ScannerScreen(
                             Toast.LENGTH_SHORT
                         )
                         .show()
+                }
+
+                ScannerEffect.ShowInterstitial -> {
+                    if (adManager.recordAction()) {
+                        activity?.let {
+                            adManager.showIfAvailable(it)
+                        }
+                    }
                 }
             }
         }

@@ -1,3 +1,22 @@
+import java.util.Properties
+
+val localProperties = Properties()
+
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use {
+        localProperties.load(it)
+    }
+}
+
+fun localProperty(
+    name: String
+): String {
+    return localProperties.getProperty(name)
+        ?: error("$name is missing from local.properties")
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -16,8 +35,8 @@ android {
         applicationId = "com.divergentapp.qrtoolkit"
         minSdk = 24
         targetSdk = 36
-        versionCode = 10
-        versionName = "1.0.5"
+        versionCode = 11
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,8 +62,82 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        resValues = true
         compose = true
         buildConfig = true
+    }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+
+        create("dev") {
+            dimension = "environment"
+
+            buildConfigField(
+                "String",
+                "ADMOB_APP_ID",
+               "\"" + localProperty("ADMOB_TEST_APP_ID") + "\""
+            )
+
+            resValue(
+                "string",
+                "admob_app_id",
+                localProperty("ADMOB_TEST_APP_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_banner_id",
+                localProperty("ADMOB_TEST_BANNER_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_interstitial_id",
+                localProperty("ADMOB_TEST_INTERSTITIAL_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_app_open",
+                localProperty("ADMOB_TEST_APP_OPEN_ID")
+            )
+        }
+
+        create("prod") {
+            dimension = "environment"
+
+            buildConfigField(
+                "String",
+                "ADMOB_APP_ID",
+                "\"" + localProperty("ADMOB_PROD_APP_ID") + "\""
+            )
+
+            resValue(
+                "string",
+                "admob_app_id",
+                localProperty("ADMOB_PROD_APP_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_banner_id",
+                localProperty("ADMOB_PROD_BANNER_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_interstitial_id",
+                localProperty("ADMOB_PROD_INTERSTITIAL_ID")
+            )
+
+            resValue(
+                "string",
+                "admob_app_open",
+                localProperty("ADMOB_PROD_APP_OPEN_ID")
+            )
+        }
     }
 }
 
@@ -62,6 +155,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.lifecycle.process)
 
 
     // Koin
@@ -110,6 +204,10 @@ dependencies {
     //In-App Rate
     implementation(libs.play.review)
     implementation(libs.play.review.ktx)
+
+    //Ads
+    implementation(libs.user.messaging.platform)
+    implementation(libs.ads.mobile.sdk)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

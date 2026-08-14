@@ -76,4 +76,6 @@ sealed interface ScannerEffect : UiEffect{
         val message: String
     ) : ScannerEffect
 
+    data object ShowInterstitial : ScannerEffect
+
 }

@@ -147,6 +147,8 @@ class HistoryViewModel(
                 selectedItem = item
             )
         }
+
+        sendEffect(HistoryEffect.ShowInterstitial)
     }
 
     private fun dismissDetails() {
