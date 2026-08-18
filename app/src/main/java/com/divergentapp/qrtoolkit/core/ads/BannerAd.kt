@@ -2,6 +2,7 @@ package com.divergentapp.qrtoolkit.core.ads
 
 import android.util.Log
 import android.view.View
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ fun BannerAd(
 
     BoxWithConstraints(
         modifier = modifier.fillMaxWidth()
+            .animateContentSize()
     ) {
 
         val widthDp = maxWidth.value.toInt()
