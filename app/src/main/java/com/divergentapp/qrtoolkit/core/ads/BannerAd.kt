@@ -22,15 +22,14 @@ import com.google.android.libraries.ads.mobile.sdk.common.AdLoadCallback
 import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
 
 @Composable
-fun BannerAd(
-    modifier: Modifier = Modifier
-) {
+fun BannerAd()
+{
     val context = LocalContext.current
 
     val adUnitId: String = AdConfig.bannerAdUnitId(context)
 
     BoxWithConstraints(
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
             .animateContentSize()
     ) {
 

@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                         UpdateApp()
                     }
 
-                    BannerAd(Modifier.fillMaxWidth())
+                    BannerAd()
                 }
 
             }
