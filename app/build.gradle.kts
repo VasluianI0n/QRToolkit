@@ -16,8 +16,8 @@ android {
         applicationId = "com.divergentapp.qrtoolkit"
         minSdk = 24
         targetSdk = 36
-        versionCode = 10
-        versionName = "1.0.5"
+        versionCode = 12
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +32,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
 
             ndk {
                 debugSymbolLevel = "FULL"

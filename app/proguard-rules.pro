@@ -29,6 +29,7 @@
 -keepattributes Signature
 -keepattributes RuntimeVisibleAnnotations
 -keepattributes RuntimeVisibleParameterAnnotations
+-keep class com.divergentapp.qrtoolkit.data.remote.** { *; }
 
 ###########################################
 # Enum values

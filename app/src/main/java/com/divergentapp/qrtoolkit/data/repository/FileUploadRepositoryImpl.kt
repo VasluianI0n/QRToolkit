@@ -1,5 +1,6 @@
 package com.divergentapp.qrtoolkit.data.repository
 
+import android.util.Log
 import com.divergentapp.qrtoolkit.core.common.Resource
 import com.divergentapp.qrtoolkit.data.remote.ProgressRequestBody
 import com.divergentapp.qrtoolkit.data.remote.fileio.TmpFilesApi
@@ -47,7 +48,10 @@ class FileUploadRepositoryImpl(
             )
 
         } catch (e: Exception) {
-            Resource.Error(message = e.message)
+            Log.e("FileUploadRepository", "Upload failed", e)
+            Resource.Error(
+                message = e.message ?: "Upload failed"
+            )
         }
     }
 

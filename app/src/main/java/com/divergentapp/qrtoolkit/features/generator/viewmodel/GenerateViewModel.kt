@@ -134,7 +134,7 @@ class GenerateViewModel(
                 }
 
                 sendEffect(
-                    GenerateEffect.ShowMessage("Check your internet connection & File Size")
+                    GenerateEffect.ShowMessage(upload.message ?: "Check your internet connection & File Size")
                 )
             }
 
